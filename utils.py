@@ -20,7 +20,7 @@ def parse_pdf(file):
     return "\n\n".join(output)
 
 
-@st.cache_data
+@st.cache
 def embed_text(text):
     """Split the text and embed it in a FAISS vector store"""
     text_splitter = RecursiveCharacterTextSplitter(
