@@ -1,0 +1,13 @@
+pdf2text
+pandas
+xlrd
+python-docx
+pytesseract
+pillow
+numpy
+transformers
+chromadb
+tiktoken
+fitz
+PyPDF2
+pdf2image
