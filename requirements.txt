@@ -11,3 +11,4 @@ tiktoken
 fitz
 PyPDF2
 pdf2image
+mimetypes

@@ -1,43 +1,27 @@
 import chainlit as cl
+import config
+import Flows.InitFlowManager as IFM
+
+@cl.on_chat_start
+async def init():
+    files = None
+    # Wait for the user to upload a file
+    while files == None:
+        files = await cl.AskFileMessage(
+            content="Please upload a PDF, Word, Excel, or CSV file to begin!", \
+            accept=config.ACCEPTED_MIME_TYPES,  \
+            max_size_mb=config.MAX_SIZE_MB, \
+            max_files=config.MAX_FILES
+        ).send()
+
+    for file in files:
+        msg = cl.Message(content=f"Processing `{file.name}`...")
+        await msg.send()
+        file_path = IFM.store_files(file)
+        file_reader = IFM.select_reader(file_path)
+        
 
 
-# Example usage:
-if __name__ == "__main__":
-    docx_path = "sample.docx"  # Replace with your document file path
-    doc_reader = DocReader(docx_path)
 
-    if doc_reader.is_password_protected():
-        print("The document is password-protected.")
-    else:
-        document_text = doc_reader.read_document()
-        if document_text is not None:
-            print("Document contents:\n", document_text)
-        else:
-            print("Failed to read the document (possibly password-protected).")
+    
 
-
-# Example usage:
-if __name__ == "__main__":
-    excel_path = "sample.xlsx"  # Replace with your Excel file path
-    excel_reader = ExcelReader(excel_path)
-
-    if excel_reader.is_password_protected():
-        print("The Excel file is password-protected.")
-    else:
-        excel_data = excel_reader.read_excel()
-        if excel_data is not None:
-            print("Excel data:\n", excel_data)
-        else:
-            print("Failed to read the Excel file (possibly password-protected).")
-
-
-# Example usage:
-if __name__ == "__main__":
-    csv_path = "sample.csv"  # Replace with your CSV file path
-    csv_reader = CSVReader(csv_path)
-
-    csv_data = csv_reader.read_csv()
-    if isinstance(csv_data, pd.DataFrame):
-        print("CSV data:\n", csv_data)
-    else:
-        print("Failed to read the CSV file.")
