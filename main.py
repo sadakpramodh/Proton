@@ -19,6 +19,25 @@ async def init():
         await msg.send()
         file_path = IFM.store_files(file)
         file_reader = IFM.select_reader(file_path)
+        # Create a Chroma vector store
+
+
+# Create a chain that uses the Chroma vector store
+chain = RetrievalQAWithSourcesChain.from_chain_type(
+    ChatOpenAI(temperature=0, streaming=True),
+    chain_type="stuff",
+    retriever=docsearch.as_retriever(),
+)
+
+# Save the metadata and texts in the user session
+cl.user_session.set("metadatas", metadatas)
+cl.user_session.set("texts", texts)
+
+# Let the user know that the system is ready
+msg.content = f"Processing `{file.name}` done. You can now ask questions!"
+await msg.update()
+
+cl.user_session.set("chain", chain)
         
 
 
