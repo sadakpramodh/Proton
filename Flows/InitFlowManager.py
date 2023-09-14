@@ -1,5 +1,5 @@
 import chainlit as cl
-import Readers.read_documents as reader
+import Readers.reader_config as reader
 import textSplitter
 
 def store_files(file):
